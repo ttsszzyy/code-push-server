@@ -171,14 +171,18 @@ proto.updateCheck = function(deploymentKey, appVersion, label, packageHash, clie
   })
   .then((deploymentsVersions) => {
     var packageId = _.get(deploymentsVersions, 'current_package_id', 0);
+    log.debug("package id: ", packageId);
     if (_.eq(packageId, 0) ) {
       return;
     }
     return models.Packages.findById(packageId)
     .then((packages) => {
+      log.debug(packages);
+      log.debug("===有更新", packages.package_hash, packageHash);
       if (packages
         && _.eq(packages.deployment_id, deploymentsVersions.deployment_id)
         && !_.eq(packages.package_hash, packageHash)) {
+          log.debug("===有更新1", packages.package_hash, packageHash);
         rs.packageId = packageId;
         rs.targetBinaryRange = deploymentsVersions.app_version;
         rs.downloadUrl = rs.downloadURL = common.getBlobDownloadUrl(_.get(packages, 'blob_url'));
@@ -199,6 +203,7 @@ proto.updateCheck = function(deploymentKey, appVersion, label, packageHash, clie
       if (!_.isEmpty(packages) && !_.eq(_.get(packages, 'package_hash', ""), packageHash)) {
         return models.PackagesDiff.findOne({where: {package_id:packages.id, diff_against_package_hash: packageHash}})
         .then((diffPackage) => {
+          log.debug("diff: ", diffPackage);
           if (!_.isEmpty(diffPackage)) {
             rs.downloadURL = common.getBlobDownloadUrl(_.get(diffPackage, 'diff_blob_url'));
             rs.downloadUrl = common.getBlobDownloadUrl(_.get(diffPackage, 'diff_blob_url'));

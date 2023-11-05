@@ -5,9 +5,9 @@ config.development = {
   // Config for database, only support mysql.
   db: {
     username: process.env.RDS_USERNAME || "root",
-    password: process.env.RDS_PASSWORD || null,
+    password: process.env.RDS_PASSWORD || "111111",
     database: process.env.DATA_BASE || "codepush",
-    host: process.env.RDS_HOST || "127.0.0.1",
+    host: process.env.RDS_HOST || "192.168.10.108",
     port: process.env.RDS_PORT || 3306,
     dialect: "mysql",
     logging: false,
@@ -57,16 +57,17 @@ config.development = {
   // Config for local storage when storageType value is "local".
   local: {
     // Binary files storage dir, Do not use tmpdir and it's public download dir.
-    storageDir: process.env.STORAGE_DIR || "/Users/tablee/workspaces/storage",
+    // storageDir: process.env.STORAGE_DIR || "/Users/tablee/workspaces/storage",
+    storageDir: process.env.STORAGE_DIR || "/Users/yangyang/Documents/workspace/reactnative/code-push-server/data",
     // Binary files download host address which Code Push Server listen to. the files storage in storageDir.
-    downloadUrl: process.env.LOCAL_DOWNLOAD_URL || "http://127.0.0.1:3000/download",
+    downloadUrl: process.env.LOCAL_DOWNLOAD_URL || "http://192.168.10.193:3000/download",
     // public static download spacename.
     public: '/download'
   },
   jwt: {
     // Recommended: 63 random alpha-numeric characters
     // Generate using: https://www.grc.com/passwords.htm
-    tokenSecret: process.env.TOKEN_SECRET ||'INSERT_RANDOM_TOKEN_KEY'
+    tokenSecret: process.env.TOKEN_SECRET ||'FCC00965E59F745278D8A375027E7687C6F453A8DB6644E8C53AC59CE7F2295C'
   },
   common: {
     /*
@@ -101,7 +102,7 @@ config.development = {
   // Config for redis (register module, tryLoginTimes module)
   redis: {
     default: {
-      host: "127.0.0.1",
+      host: "192.168.10.108",
       port: 6379,
       retry_strategy: function (options) {
         if (options.error.code === 'ECONNREFUSED') {
@@ -128,7 +129,8 @@ config.development.log4js = {
   categories : {
     "default": { appenders: ['console'], level:'error'},
     "startup": { appenders: ['console'], level:'info'},
-    "http": { appenders: ['console'], level:'info'}
+    "http": { appenders: ['console'], level:'info'},
+    "cps:ClientManager":{appenders: ['console'], level:'debug'}
   }
 }
 

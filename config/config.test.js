@@ -4,26 +4,27 @@ var config = {};
 config.test = {
   db: {
     username: "root",
-    password: null,
-    database: "codepush_test",
-    host: "127.0.0.1",
+    password: "111111",
+    database: "codepush",
+    host: "192.168.10.108",
     port: 3306,
     dialect: "mysql",
     logging: false,
     operatorsAliases: false,
   },
   local: {
-    storageDir: os.tmpdir(),
-    downloadUrl: "http://127.0.0.1:3000/download",
+    // storageDir: os.tmpdir(),
+    storageDir: "/Users/yangyang/Documents/workspace/reactnative/code-push-server/data",
+    downloadUrl: "http://192.168.10.193:3000/download",
     public: '/download'
   },
   jwt: {
-    tokenSecret: 'INSERT_RANDOM_TOKEN_KEY'
+    tokenSecret: 'FCC00965E59F745278D8A375027E7687C6F453A8DB6644E8C53AC59CE7F2295C'
   },
   common: {
     tryLoginTimes: 10,
     diffNums: 3,
-    dataDir: os.tmpdir(),
+    dataDir: "/Users/yangyang/Documents/workspace/reactnative/code-push-server/data",
     storageType: "local",
     updateCheckCache: true,
     rolloutClientUniqueIdCache: false,
@@ -31,7 +32,7 @@ config.test = {
   smtpConfig: false,
   redis: {
     default: {
-      host: "127.0.0.1",
+      host: "192.168.10.108",
       port: 6379,
       retry_strategy: function (options) {
         if (options.error.code === 'ECONNREFUSED') {
@@ -53,7 +54,8 @@ config.test.log4js = {
   categories : {
     "default": { appenders: ['console'], level:'error'},
     "startup": { appenders: ['console'], level:'info'},
-    "http": { appenders: ['console'], level:'info'}
+    "http": { appenders: ['console'], level:'info'},
+    "cps:ClientManager":{appenders: ['console'], level:'debug'}
   }
 }
 module.exports = config;
